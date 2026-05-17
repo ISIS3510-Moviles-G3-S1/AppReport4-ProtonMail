@@ -1,6 +1,0 @@
-{
-  "buildCommand": "pnpm run build",
-  "installCommand": "pnpm install",
-  "outputDirectory": ".next",
-  "rootDirectory": "app-report4-protonmail"
-}
