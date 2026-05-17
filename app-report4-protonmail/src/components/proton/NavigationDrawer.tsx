@@ -114,7 +114,7 @@ export function NavigationDrawer({ activeId, onClose }: Props) {
 
       {/* Footer */}
       <div className="border-t border-proton-separator px-4 py-3 text-[11px] text-proton-text-tertiary">
-        Group 8 · ISIS-3510 · 2025-2
+        Group 13 · ISIS-3510 · 2025-2
       </div>
     </nav>
   );

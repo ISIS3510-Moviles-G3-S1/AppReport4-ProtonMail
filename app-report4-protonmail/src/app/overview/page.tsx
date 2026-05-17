@@ -35,6 +35,9 @@ export default function OverviewPage() {
           <p>
             This Next.js app is a supplementary tool created to accompany the formal PDF submission of App Report 4. The PDF is the graded deliverable; this companion enables interactive exploration of findings. Both resources are linked and referenced together.
           </p>
+          <p>
+            Proposed pull request with the micro-optimizations: <a href="https://github.com/ProtonMail/ios-mail/pull/112" target="_blank" rel="noreferrer" className="text-proton-violet underline">https://github.com/ProtonMail/ios-mail/pull/112</a>
+          </p>
         </div>
       </main>
     </AppShell>

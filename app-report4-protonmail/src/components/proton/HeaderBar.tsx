@@ -47,7 +47,7 @@ export function HeaderBar({ title, onToggleDrawer, onToggleSearch }: Props) {
               background: "linear-gradient(135deg, #6D4AFF 0%, #4F2BD9 100%)",
             }}
           >
-            G8
+            G13
           </span>
         </Link>
       </div>

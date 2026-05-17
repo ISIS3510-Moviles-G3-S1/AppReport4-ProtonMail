@@ -32,6 +32,9 @@ export default function MicroOptimizationsPage() {
             <p className="mt-3 max-w-3xl text-sm leading-relaxed text-proton-text-secondary">
               Small, localized changes from the report, grouped into the same four folders used in the audit: Existing, Tier 1, Tier 2, and Out of scope.
             </p>
+            <p className="mt-2 text-sm text-proton-text-tertiary">
+              Proposed PR with these micro-optimizations: <a href="https://github.com/ProtonMail/ios-mail/pull/112" target="_blank" rel="noreferrer" className="text-proton-violet underline">https://github.com/ProtonMail/ios-mail/pull/112</a>
+            </p>
           </header>
 
           <div className="space-y-6 px-5 py-6 sm:px-6">
@@ -57,11 +60,13 @@ export default function MicroOptimizationsPage() {
                     ? (items as typeof microOptimizationFolders.outOfScope).map((folder, index) => (
                         <div key={index} className="rounded-xl border border-proton-separator bg-proton-bg/60 p-4">
                           <p className="text-sm font-medium text-proton-text">{folder.title}</p>
-                          <ul className="mt-3 space-y-2 text-sm leading-relaxed text-proton-text-secondary list-disc pl-5">
-                            {folder.body.map((line) => (
-                              <li key={line}>{line}</li>
-                            ))}
-                          </ul>
+                            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-proton-text-secondary list-disc pl-5">
+                              {folder.body.map((line, i) => (
+                                <li key={`${index}-${i}`}>
+                                  <InlineMarkdown text={line} />
+                                </li>
+                              ))}
+                            </ul>
                         </div>
                       ))
                     : (items as typeof microOptimizationFolders.existing).map((item) => (

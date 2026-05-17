@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Plus } from "lucide-react";
+import { ComposeInfoModal } from "@/components/proton/ComposeInfoModal";
 import { AppShell } from "@/components/proton/AppShell";
 import { ScenarioRow } from "@/components/proton/ScenarioRow";
 import { scenarios } from "@/content/scenarios";
@@ -21,6 +22,7 @@ function hasHighRisk(scenario: Scenario): boolean {
 }
 
 export default function Page() {
+  const [infoOpen, setInfoOpen] = useState(false);
   const [filter, setFilter] = useState<Filter>("all");
   const [starred, setStarred] = useState<Set<string>>(new Set());
 
@@ -60,13 +62,7 @@ export default function Page() {
           ))}
         </div>
 
-        {/* Audit attestation banner */}
-        <div className="mx-4 mb-3 rounded-[10px] border-l-[3px] border-proton-violet bg-proton-violet/8 px-4 py-3 text-[12.5px] leading-relaxed text-proton-text-secondary">
-          <span className="font-semibold text-proton-violet-soft">
-            App Report 4 — Proton Mail iOS.
-          </span>{" "}
-          In this app report I write a technical audit of the Proton Mail iOS application, identifying and reporting technical issues related to the course topics in a detailed way.
-        </div>
+        {/* Audit attestation banner removed as requested */}
 
         {/* Scenario list */}
         {filtered.length === 0 ? (
@@ -85,10 +81,11 @@ export default function Page() {
         )}
       </div>
 
-      {/* FAB — navigates to micro-optimizations (compose metaphor) */}
-      <Link
-        href="/micro-optimizations"
-        aria-label="View micro-optimizations"
+      {/* FAB — opens explanatory message about the mockup */}
+      <button
+        type="button"
+        aria-label="About this mockup"
+        onClick={() => setInfoOpen(true)}
         style={{
           bottom: "calc(env(safe-area-inset-bottom, 0px) + 1.5rem)",
           right: "calc(env(safe-area-inset-right, 0px) + 1.5rem)",
@@ -96,7 +93,9 @@ export default function Page() {
         className="fixed z-20 flex h-14 w-14 items-center justify-center rounded-[18px] bg-proton-violet shadow-[0_8px_24px_rgba(109,74,255,0.4)] transition-all touch-manipulation hover:-translate-y-0.5 hover:bg-proton-violet-hover active:bg-proton-violet-hover"
       >
         <Plus size={24} strokeWidth={2} className="text-white" />
-      </Link>
+      </button>
+
+      <ComposeInfoModal open={infoOpen} onClose={() => setInfoOpen(false)} />
     </AppShell>
   );
 }
