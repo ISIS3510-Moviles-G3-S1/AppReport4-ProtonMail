@@ -54,7 +54,7 @@ export function SearchDropdown({ open, onClose }: Props) {
         onClick={onClose}
         className="fixed inset-0 z-30 bg-black/20"
       />
-      <div className="absolute left-0 right-0 top-full z-40 border-b border-proton-separator bg-proton-bg/98 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+      <div className="fixed top-14 left-0 right-0 z-40 border-b border-proton-separator bg-proton-bg shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
         <div className="mx-auto max-w-4xl px-4 py-4 sm:px-6">
           <div className="rounded-2xl border border-proton-separator bg-proton-surface overflow-hidden">
             <div className="flex items-center gap-3 border-b border-proton-separator bg-proton-surface-elevated px-4 py-3">
@@ -87,7 +87,7 @@ export function SearchDropdown({ open, onClose }: Props) {
                       <Link
                         href={result.href}
                         onClick={onClose}
-                        className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-proton-bg/70"
+                        className="flex items-start gap-3 px-4 py-3 transition-colors touch-manipulation hover:bg-proton-bg/70 active:bg-proton-bg/70"
                       >
                         <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-proton-separator text-xs font-semibold text-proton-text-tertiary">
                           {result.category.slice(0, 1).toUpperCase()}

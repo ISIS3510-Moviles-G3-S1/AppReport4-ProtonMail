@@ -3,13 +3,18 @@
 @theme {
   --color-proton-bg: #0c0e13;
   --color-proton-surface: #11131a;
-  --color-proton-surface-elevated: #161924;
-  --color-proton-separator: #1f2230;
+  --color-proton-surface-elevated: #181b23;
+  --color-proton-surface-tertiary: #1b1e26;
+  --color-proton-separator: #232631;
   --color-proton-text: #ffffff;
-  --color-proton-text-secondary: #9ca3af;
-  --color-proton-text-tertiary: #6b7280;
+  --color-proton-text-secondary: #b7b9c5;
+  --color-proton-text-tertiary: #6d6f7b;
   --color-proton-violet: #6d4aff;
+  --color-proton-violet-soft: #8a7cff;
   --color-proton-violet-hover: #7d5cff;
+  --color-proton-success: #1ea885;
+  --color-proton-warning: #e0a75e;
+  --color-proton-danger: #e04a5f;
 
   --color-risk-1-bg: #173404;
   --color-risk-1-fg: #c0dd97;
@@ -40,4 +45,41 @@ body {
   outline: 2px solid var(--color-proton-violet);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Native <details>/<summary> styling — hide default disclosure marker,
+   rotate the chevron when open. Works without JavaScript. */
+.analysis-summary::-webkit-details-marker {
+  display: none;
+}
+.analysis-summary {
+  -webkit-tap-highlight-color: transparent;
+}
+.analysis-details[open] .analysis-chevron {
+  transform: rotate(180deg);
+}
+
+/* Header buttons: explicit cursor, only-on-hover hover styles
+   (avoids the iOS "tap triggers hover" trap). */
+.header-btn {
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+@media (hover: hover) {
+  .header-btn:hover {
+    background-color: var(--color-proton-surface-elevated);
+  }
+}
+.header-btn:active {
+  background-color: var(--color-proton-surface-elevated);
 }

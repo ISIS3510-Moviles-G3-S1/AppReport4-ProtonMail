@@ -1,7 +1,5 @@
-"use client";
-
-import { useState, type ReactNode } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import type { ReactNode } from "react";
 
 type Props = {
   title: string;
@@ -20,27 +18,22 @@ export function AnalysisMessage({
   icon,
   children,
 }: Props) {
-  const [open, setOpen] = useState(defaultOpen);
-  const Chevron = open ? ChevronDown : ChevronRight;
-
   return (
-    <article className="border-b border-proton-separator last:border-b-0">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-proton-surface-elevated"
-      >
+    <details
+      className="analysis-details border-b border-proton-separator last:border-b-0"
+      open={defaultOpen}
+    >
+      <summary className="analysis-summary flex w-full cursor-pointer list-none items-center gap-3 px-3 py-3 text-left transition-colors touch-manipulation select-none hover:bg-proton-surface-elevated active:bg-proton-surface-elevated sm:px-4">
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-proton-surface-elevated text-proton-text-tertiary">
           {icon}
         </span>
 
-        <span className="flex-1 truncate text-sm font-medium text-proton-text">
+        <span className="min-w-0 flex-1 truncate text-sm font-medium text-proton-text">
           {title}
         </span>
 
         <span
-          className="shrink-0 rounded px-2 py-0.5 text-xs font-medium"
+          className="shrink-0 rounded px-2 py-0.5 text-[11px] font-medium whitespace-nowrap"
           style={{
             backgroundColor: `var(--color-risk-${estimateScore}-bg)`,
             color: `var(--color-risk-${estimateScore}-fg)`,
@@ -49,19 +42,17 @@ export function AnalysisMessage({
           {estimate}
         </span>
 
-        <Chevron
+        <ChevronDown
           size={15}
           strokeWidth={2}
-          className="shrink-0 text-proton-text-tertiary"
+          className="analysis-chevron shrink-0 text-proton-text-tertiary transition-transform duration-200"
         />
-      </button>
+      </summary>
 
-      {open && (
-        <div className="space-y-5 px-4 pb-5 pt-1 pl-[3.75rem]">
-          {children}
-        </div>
-      )}
-    </article>
+      <div className="space-y-5 px-3 pb-5 pt-1 sm:px-4 sm:pl-[3.75rem]">
+        {children}
+      </div>
+    </details>
   );
 }
 

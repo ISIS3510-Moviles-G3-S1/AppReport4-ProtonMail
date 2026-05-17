@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { X } from "lucide-react";
 import {
   Inbox,
   FileText,
@@ -24,8 +25,18 @@ const SECTIONS: Section[] = [
   { id: "scenarios", label: "Scenarios", href: "/", icon: Inbox, count: 5 },
   { id: "memory", label: "Memory Management", href: "/memory", icon: Cpu },
   { id: "threading", label: "Threading", href: "/threading", icon: Workflow },
-  { id: "micro-optimizations", label: "Micro-optimizations", href: "/micro-optimizations", icon: Wand2 },
-  { id: "audit", label: "Technical Audit", href: "/audit", icon: ClipboardList },
+  {
+    id: "micro-optimizations",
+    label: "Micro-optimizations",
+    href: "/micro-optimizations",
+    icon: Wand2,
+  },
+  {
+    id: "audit",
+    label: "Technical Audit",
+    href: "/audit",
+    icon: ClipboardList,
+  },
 ];
 
 type Props = {
@@ -37,17 +48,33 @@ export function NavigationDrawer({ activeId, onClose }: Props) {
   return (
     <nav
       aria-label="Report sections"
-      className="flex h-screen w-72 flex-col border-r border-proton-separator bg-proton-surface overflow-y-auto"
+      className="flex h-full w-72 flex-col overflow-y-auto border-r border-proton-separator bg-proton-surface"
     >
-      <div className="px-4 pt-6 pb-4">
-        <p className="text-xs font-medium uppercase tracking-wider text-proton-text-tertiary">
-          App Report 4
-        </p>
-        <p className="mt-1 text-sm text-proton-text-secondary">
-          Proton Mail iOS · Static audit
-        </p>
+      {/* Drawer header */}
+      <div className="flex items-center justify-between px-4 pb-3 pt-5">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-proton-text-tertiary">
+            App Report 4
+          </p>
+          <p className="mt-0.5 text-sm text-proton-text-secondary">
+            Proton Mail iOS · Static audit
+          </p>
+        </div>
+        {/* Close button — visible on mobile when drawer is an overlay */}
+        {onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close navigation"
+            className="flex h-10 w-10 items-center justify-center rounded-lg text-proton-text-tertiary transition-colors touch-manipulation hover:bg-proton-surface-elevated active:bg-proton-surface-elevated hover:text-proton-text"
+          >
+            <X size={18} strokeWidth={2} />
+          </button>
+        )}
       </div>
-      <ul className="flex-1 px-2 pb-4">
+
+      {/* Section links */}
+      <ul className="flex-1 px-2 pb-4 pt-1">
         {SECTIONS.map((section) => {
           const Icon = section.icon;
           const isActive = section.id === activeId;
@@ -58,17 +85,19 @@ export function NavigationDrawer({ activeId, onClose }: Props) {
                 onClick={onClose}
                 aria-current={isActive ? "page" : undefined}
                 className={[
-                  "group flex w-full items-center gap-3 rounded-md px-3 py-2 text-left text-sm transition-colors",
+                  "flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm transition-colors touch-manipulation",
                   isActive
                     ? "bg-proton-violet/15 text-proton-text"
-                    : "text-proton-text-secondary hover:bg-proton-surface-elevated hover:text-proton-text",
+                    : "text-proton-text-secondary hover:bg-proton-surface-elevated active:bg-proton-surface-elevated hover:text-proton-text",
                 ].join(" ")}
               >
                 <Icon
                   size={18}
                   strokeWidth={1.75}
                   className={
-                    isActive ? "text-proton-violet" : "text-proton-text-tertiary"
+                    isActive
+                      ? "text-proton-violet"
+                      : "text-proton-text-tertiary"
                   }
                 />
                 <span className="flex-1 truncate">{section.label}</span>
@@ -82,8 +111,10 @@ export function NavigationDrawer({ activeId, onClose }: Props) {
           );
         })}
       </ul>
-      <div className="border-t border-proton-separator px-4 py-3 text-xs text-proton-text-tertiary">
-        Group 13 · ISIS-3510 · 2025-2
+
+      {/* Footer */}
+      <div className="border-t border-proton-separator px-4 py-3 text-[11px] text-proton-text-tertiary">
+        Group 8 · ISIS-3510 · 2025-2
       </div>
     </nav>
   );

@@ -68,7 +68,7 @@ export default function MicroOptimizationsPage() {
                         <Link
                           key={item.id}
                           href={`/micro-optimizations/${item.id}`}
-                          className="rounded-xl border border-proton-separator bg-proton-bg/60 p-4 transition-colors hover:bg-proton-surface-elevated"
+                          className="rounded-xl border border-proton-separator bg-proton-bg/60 p-4 transition-colors touch-manipulation hover:bg-proton-surface-elevated active:bg-proton-surface-elevated"
                         >
                           <div className="flex flex-wrap items-start justify-between gap-3">
                             <div>

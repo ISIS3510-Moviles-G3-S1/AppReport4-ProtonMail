@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { HeaderBar } from "./HeaderBar";
 import { NavigationDrawer } from "./NavigationDrawer";
@@ -17,16 +17,10 @@ const SECTION_TITLES: Record<string, string> = {
 };
 
 function getSectionFromPath(pathname: string): string {
-  // Extract section from pathname
-  // /overview -> overview
-  // /memory -> memory
-  // /scenario/cold-launch -> scenarios
-  // / -> scenarios
   if (pathname === "/") return "scenarios";
   if (pathname.startsWith("/scenario")) return "scenarios";
-  
-  const segments = pathname.split("/").filter(Boolean);
-  return segments[0] || "scenarios";
+  const first = pathname.split("/").filter(Boolean)[0];
+  return first ?? "scenarios";
 }
 
 type Props = {
@@ -36,52 +30,44 @@ type Props = {
 
 export function AppShell({ children, activeSection }: Props) {
   const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  
-  const currentSection = activeSection || getSectionFromPath(pathname);
 
-  const handleToggleDrawer = () => {
-    console.log('[AppShell] Toggle drawer called, current mobileOpen:', mobileOpen);
-    setMobileOpen((v) => !v);
-  };
+  const currentSection = activeSection ?? getSectionFromPath(pathname);
 
-  const handleToggleSearch = () => {
-    console.log('[AppShell] Toggle search called, current searchOpen:', searchOpen);
-    setSearchOpen((v) => !v);
-  };
+  // Close the drawer whenever the route changes.
+  useEffect(() => {
+    setDrawerOpen(false);
+  }, [pathname]);
 
   return (
-    <div className="flex min-h-screen bg-proton-bg text-proton-text">
-      <aside className="hidden lg:block">
-        <NavigationDrawer activeId={currentSection} />
-      </aside>
+    <div className="min-h-screen bg-proton-bg text-proton-text">
+      <HeaderBar
+        title={SECTION_TITLES[currentSection] ?? "Inbox"}
+        onToggleDrawer={() => setDrawerOpen((v) => !v)}
+        onToggleSearch={() => setSearchOpen((v) => !v)}
+      />
+      <SearchDropdown open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <main>{children}</main>
 
-      {mobileOpen && (
+      {/* Drawer — conditionally rendered. No transforms, no transitions.
+          When closed it does NOT exist in the DOM, so it cannot intercept
+          any pointer events anywhere on the page. */}
+      {drawerOpen && (
         <>
           <div
-            aria-hidden
-            onClick={() => setMobileOpen(false)}
-            className="fixed inset-0 z-30 bg-black/60 lg:hidden"
+            aria-hidden="true"
+            onClick={() => setDrawerOpen(false)}
+            className="fixed inset-0 z-40 bg-black/60"
           />
-          <aside className="fixed inset-y-0 left-0 z-40 lg:hidden">
+          <aside className="fixed inset-y-0 left-0 z-50 w-72 shadow-2xl">
             <NavigationDrawer
               activeId={currentSection}
-              onClose={() => setMobileOpen(false)}
+              onClose={() => setDrawerOpen(false)}
             />
           </aside>
         </>
       )}
-
-      <div className="flex min-w-0 flex-1 flex-col">
-        <HeaderBar
-          title={SECTION_TITLES[currentSection] ?? "Inbox"}
-          onToggleDrawer={handleToggleDrawer}
-          onToggleSearch={handleToggleSearch}
-        />
-        <SearchDropdown open={searchOpen} onClose={() => setSearchOpen(false)} />
-        <main className="flex-1">{children}</main>
-      </div>
     </div>
   );
 }

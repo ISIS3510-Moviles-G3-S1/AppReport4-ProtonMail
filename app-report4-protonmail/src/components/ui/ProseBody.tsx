@@ -22,7 +22,7 @@ async function HighlightedCode({ snippet }: { snippet: string }) {
   const tokens: HighlightToken[] = await tokenizeSwift(snippet);
   return (
     <code
-      className="rounded px-[0.3em] py-[0.15em] text-[0.85em] font-mono"
+      className="rounded px-[0.3em] py-[0.15em] text-[0.85em] font-mono break-words"
       style={{ backgroundColor: "rgba(109,74,255,0.14)" }}
     >
       {tokens.map((t, i) => (
@@ -37,21 +37,27 @@ async function HighlightedCode({ snippet }: { snippet: string }) {
 export async function ProseBody({ text }: { text: string }) {
   const paragraphs = text.split(/\n{2,}/);
 
-  return (
-    <div className="space-y-3">
-      {paragraphs.map(async (para, pi) => {
-        const segments = parseSegments(para);
-        return (
-          <p key={pi} className="text-sm leading-relaxed text-proton-text-secondary">
-            {await Promise.all(
-              segments.map(async (seg, si) => {
-                if (seg.kind === "text") return <span key={si}>{seg.content}</span>;
-                return <HighlightedCode key={si} snippet={seg.snippet} />;
-              })
-            )}
-          </p>
-        );
-      })}
-    </div>
+  // Resolve every paragraph (and its segments) before returning JSX, so we
+  // never hand React an array of unresolved promises as children.
+  const renderedParagraphs = await Promise.all(
+    paragraphs.map(async (para, pi) => {
+      const segments = parseSegments(para);
+      const renderedSegments = await Promise.all(
+        segments.map(async (seg, si) => {
+          if (seg.kind === "text") return <span key={si}>{seg.content}</span>;
+          return <HighlightedCode key={si} snippet={seg.snippet} />;
+        })
+      );
+      return (
+        <p
+          key={pi}
+          className="text-sm leading-relaxed text-proton-text-secondary break-words"
+        >
+          {renderedSegments}
+        </p>
+      );
+    })
   );
+
+  return <div className="space-y-3">{renderedParagraphs}</div>;
 }
