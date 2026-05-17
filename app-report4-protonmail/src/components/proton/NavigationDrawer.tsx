@@ -37,7 +37,7 @@ export function NavigationDrawer({ activeId, onClose }: Props) {
   return (
     <nav
       aria-label="Report sections"
-      className="flex h-full w-72 flex-col border-r border-proton-separator bg-proton-surface"
+      className="flex h-screen w-72 flex-col border-r border-proton-separator bg-proton-surface overflow-y-auto"
     >
       <div className="px-4 pt-6 pb-4">
         <p className="text-xs font-medium uppercase tracking-wider text-proton-text-tertiary">
@@ -83,7 +83,7 @@ export function NavigationDrawer({ activeId, onClose }: Props) {
         })}
       </ul>
       <div className="border-t border-proton-separator px-4 py-3 text-xs text-proton-text-tertiary">
-        Group 8 · ISIS-3510 · 2025-2
+        Group 13 · ISIS-3510 · 2025-2
       </div>
     </nav>
   );
